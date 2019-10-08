@@ -3,16 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Auth extends CI_Controller {
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->load->library('form_validation');
-	}
-
 	public function index()
 	{
 		$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
 		$this->form_validation->set_rules('password', 'Password', 'trim|required');
+		
+		if (isset($_SESSION['email'])) {
+			redirect('user');
+		}
 
 		if ($this->form_validation->run() == false) {
 			$data['title'] = 'Login Page';
@@ -28,7 +26,6 @@ class Auth extends CI_Controller {
 	{
 		$email = $this->input->post('email');
 		$password = $this->input->post('password');
-
 		$user = $this->db->get_where('user',['email' => $email])->row_array();
 
 		if ($user) {
