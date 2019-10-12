@@ -16,8 +16,21 @@
       <!-- Topbar Navbar -->
       <ul class="navbar-nav ml-auto">
 
+        <?php if ($role['role'] == 'Direktur'): ?>
+          <!-- Nav Item - Messages -->
+          <li class="nav-item dropdown no-arrow mx-1">
+            <a class="nav-link dropdown-toggle" href="<?= base_url('user/lihatSurat'); ?>" id="messagesDropdown" role="button">
+              <i class="fas fa-envelope fa-fw"></i>
+              <!-- Counter - Messages -->
+              <span class="badge badge-danger badge-counter"><?= $counts2; ?></span>
+            </a>
+            <!-- Dropdown - Messages -->
+            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
+            </div>
+          </li>
+        <?php endif; ?>
+        
         <div class="topbar-divider d-none d-sm-block"></div>
-
         <!-- Nav Item - User Information -->
         <li class="nav-item dropdown no-arrow">
           <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -37,8 +50,6 @@
                       </a>
                     </div>
                   </li>
-
                 </ul>
-
               </nav>
               <!-- End of Topbar -->

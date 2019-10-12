@@ -13,57 +13,87 @@
 						<th scope="col">Pengirim</th>
 						<th scope="col">Tujuan Surat</th>
 						<th scope="col">Perihal</th>
-						<th scope="col">Sifat Surat</th>
-						<th scope="col"></th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php $i = 1; ?>
-					<?php foreach($menu as $sm) : ?>
-						<?php if (empty($sm['disposisi'])): ?>
-							<tr>
-								<th scope="row"><?= $i; ?></th>
-								<td><?= $sm['no_surat_masuk']; ?></td>
-								<td><?= $sm['pengirim']; ?></td>
-								<td><?= $sm['tujuan']; ?></td>
-								<td><?= $sm['perihal']; ?></td>
-								<td><?= $sm['sifat_surat']; ?></td>
-								<div>
-									<td><button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-teal">Konfirmasi</button>
-
-										<div id="id01" class="w3-modal w3-animate-opacity">
-											<div class="w3-modal-content w3-card-4" style="max-width: 50%">
-												<span onclick="document.getElementById('id01').style.display='none'" 
-												class="w3-button w3-large w3-display-topright w3-red">&times;</span>
-												<form method="post" action="<?= base_url('surat/disposisi'); ?>">
-													<div class="w3-container">
-														<br>
-														<label>Keterangan</label>
-														<textarea class="w3-input w3-border" id="keterangan" name="keterangan" rows="4" cols="20"></textarea>
-													</div>
-													<br>
-													<div class="col w3-container">
-														<select class="w3-select" name="option" style="max-width: 15%">
-															<option value="" disabled selected>Konfirmasi</option>
-															<option value="terima">Terima</option>
-															<option value="tolak">Tolak</option>
-														</select>
-													</div>
-													<hr>
-													<div class="col w3-container">
-														<button type="submit" name="submit" value="Enter" class="w3-col w3-button w3-block w3-teal" style="max-width:25%">SIMPAN</button>
-													</div>
-												</form>
-												<br>
-											</div>
-										</div>
-									</td>
+						<?php if ($role['role'] == 'Keuangan'): ?>
+								<th scope="col">Tanggal Masuk</th>
+								<th scope="col">Penerima</th>
+								<th scope="col">Disposisi</th>
+								<th scope="col">Status</th>
+							<?php else: ?>
+								<th scope="col">Sifat Surat</th>
+							<?php endif; ?>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php if ($role['role'] == 'Keuangan'): ?>
+							<?php $i = 1; ?>
+							<?php foreach($menu2 as $sm) : ?>
+								<tr>
+									<th scope="row"><?= $i; ?></th>
+									<td><?= $sm['no_surat_masuk']; ?></td>
+									<td><?= $sm['pengirim']; ?></td>
+									<td><?= $sm['tujuan']; ?></td>
+									<td><?= $sm['perihal']; ?></td>
+									<td><?= $sm['tanggal_masuk']; ?></td>
+									<td><?= $sm['penerima']; ?></td>
+									<td><?= $sm['disposisi']; ?></td>
+									<td><?= $sm['status']; ?></td>
 								</tr>
 								<?php $i++; ?>
-							<?php endif ?>
-						<?php endforeach; ?>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
+							<?php endforeach; ?>
+							<?php else: ?>
+								<?php $i = 1; ?>
+								<?php foreach($menu as $sm) : ?>
+									<?php if (empty($sm['disposisi'])): ?>
+										<?php $a = $sm['no_urut']; ?>
+										<?php if ($sm['sifat_surat'] == 'Penting'): ?>
+											<tr style="background-color: red; color: white;">
+												<?php else: ?>
+													<tr>
+													<?php endif ?>
+													<th scope="row"><?= $i; ?></th>
+													<td><?= $sm['no_surat_masuk']; ?></td>
+													<td><?= $sm['pengirim']; ?></td>
+													<td><?= $sm['tujuan']; ?></td>
+													<td><?= $sm['perihal']; ?></td>
+													<td><?= $sm['sifat_surat']; ?></td>
+													<td><a onclick="document.getElementById('id0<?= $i; ?>').style.display='block'"  class="w3-button w3-teal">Konfirmasi</a>
+
+														<div id="id0<?= $i; ?>" class="w3-modal w3-animate-opacity">
+															<div class="w3-modal-content w3-card-4" style="max-width: 50%">
+																<span onclick="document.getElementById('id0<?= $i; ?>').style.display='none'" class="w3-button w3-large w3-display-topright w3-red">&times;</span>
+																<!-- <label><?= $a; ?></label> -->
+																<form method="post" action="<?= base_url('surat/disposisi')?>">
+																	<input type="text" name="noUrut" id="noUrut" value="<?= $a; ?>" hidden="">
+																	<div class="w3-container">
+																		<br>
+																		<label>Keterangan</label>
+																		<textarea class="w3-input w3-border" id="keterangan" name="keterangan" rows="4" cols="20"></textarea>
+																	</div>
+																	<br>
+																	<div class="col w3-container">
+																		<!-- <input class="w3-input" type="text" id="status" name="status" value="<?= set_value('status') ?>"> -->
+																		<select class="w3-select" name="status" id="status" style="max-width: 15%">
+																			<option value="" disabled selected>Konfirmasi</option>
+																			<option value="terima">Terima</option>
+																			<option value="tolak">Tolak</option>
+																		</select>
+																	</div>
+																	<hr>
+																	<div class="col w3-container">
+																		<button type="submit" name="submit" value="Enter" class="w3-col w3-button w3-block w3-teal" style="max-width:25%" >SIMPAN</button>
+																	</div>
+																</form>
+																<br>
+															</div>
+														</td>
+													</tr>
+													<?php $i++; ?>
+												<?php endif ?>
+											<?php endforeach; ?>
+										<?php endif ?>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>

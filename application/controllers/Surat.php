@@ -7,7 +7,8 @@ class Surat extends CI_Controller {
 	{
 		$data['title'] = 'Surat Masuk';
 		$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-		
+		$data['role'] = $this->db->get_where('user_role', ['id' => $this->session->userdata('role_id')])->row_array();
+		$data['counts2'] =$this->db->select('*')->from('surat_masuk')->where('status', 'menunggu')->count_all_results();
 		$this->load->view('templates/dash_header', $data);
 		$this->load->view('templates/dash_sidebar', $data);
 		$this->load->view('templates/dash_navbar', $data);
@@ -44,21 +45,24 @@ class Surat extends CI_Controller {
 				'sifat_surat' => htmlspecialchars($this->input->post('sifatSurat', true)),
 				'status' => 'menunggu'
 			];
-
 			$this->db->insert('surat_masuk', $data);
 			redirect('user/surat');
 		}
+
 	}
 
 
 	public function disposisi()
 	{
 		$this->form_validation->set_rules('keterangan', 'Keterangan', 'required|trim');
-		$this->form_validation->set_rules('tujuan', 'Tujuan', 'required|trim');
+		$this->form_validation->set_rules('status', 'status', 'required|trim');
 
 		if ( $this->form_validation->run() == false ) {
+			echo "gagal";
 			$data['title'] = 'Surat Masuk';
-			$data['surat'] = $this->db->get_where('surat_masuk', ['no_urut' => $this->session->userdata('no_urut')])->row_array();
+			$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+			$data['menu'] = $this->db->get('surat_masuk')->result_array();
+		$data['counts2'] =$this->db->select('*')->from('surat_masuk')->where('status', 'menunggu')->count_all_results();
 
 			$this->load->view('templates/dash_header', $data);
 			$this->load->view('templates/dash_sidebar', $data);
@@ -66,9 +70,17 @@ class Surat extends CI_Controller {
 			$this->load->view('user/lihatSurat', $data);
 			$this->load->view('templates/dash_footer', $data);
 		} else {
+			echo "berhasil";
+			$keterangan = $this->input->post('keterangan');
+			$status = $this->input->post('status');
+			$noUrut = $this->input->post('noUrut');
 
-			$this->db->insert('surat_masuk', $data);
-			redirect('user/surat');
+			$this->db->set('disposisi', $keterangan);
+			$this->db->set('status', $status);
+			$this->db->where('no_urut', $noUrut);
+			$this->db->update('surat_masuk');
+
+			redirect('user/lihatSurat');
 		}
 	}
 }

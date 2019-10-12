@@ -9,39 +9,30 @@
         Jogja TV
       </a>
 
-      <!-- Divider -->
-      <hr class="sidebar-divider">
-
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        Administrator
-      </div>
-
-      <!-- Nav Item - Dashboard -->
+      <!-- Nav Item - Profile -->
       <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('user/surat'); ?>">
-          <i class="far fa-envelope"></i>
-          <span>Manajemen Surat</span></a>
+        <a class="nav-link" href="<?= base_url('user'); ?>">
+          <i class="fas fa-fw fa-home"></i>
+          <span>Home</span></a>
         </li>
-
         <!-- Divider -->
         <hr class="sidebar-divider">
 
         <!-- Heading -->
         <div class="sidebar-heading">
-          User
+          Administrator
         </div>
 
-        <!-- Nav Item - Profile -->
+        <!-- Nav Item - Dashboard -->
         <li class="nav-item">
-          <a class="nav-link" href="<?= base_url('user'); ?>">
-            <i class="fas fa-fw fa-user"></i>
-            <span>Profil</span></a>
+          <a class="nav-link" href="<?= base_url('user/surat'); ?>">
+            <i class="far fa-envelope"></i>
+            <span>Manajemen Surat</span></a>
           </li>
 
           <!-- Divider -->
           <hr class="sidebar-divider">
-
+          
           <!-- Heading -->
           <div class="sidebar-heading">
             System
@@ -49,7 +40,7 @@
 
           <!-- Nav Item - Logout -->
           <li class="nav-item">
-            <a class="nav-link" href="<?= base_url('auth/logout') ?>">
+            <a class="nav-link" href="<?= base_url('auth/logout') ?>"  data-toggle="modal" data-target="#logoutModal">
               <i class="fas fa-fw fa-sign-out-alt"></i>
               <span>Logout</span></a>
             </li>
