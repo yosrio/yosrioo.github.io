@@ -14,13 +14,14 @@
 						<th scope="col">Tujuan Surat</th>
 						<th scope="col">Perihal</th>
 						<?php if ($role['role'] == 'Keuangan'): ?>
-								<th scope="col">Tanggal Masuk</th>
-								<th scope="col">Penerima</th>
-								<th scope="col">Disposisi</th>
-								<th scope="col">Status</th>
+							<th scope="col">Tanggal Masuk</th>
+							<th scope="col">Penerima</th>
+							<th scope="col">Disposisi</th>
+							<th scope="col">Status</th>
 							<?php else: ?>
 								<th scope="col">Sifat Surat</th>
 							<?php endif; ?>
+							<th scope="col"></th>
 							<th scope="col"></th>
 						</tr>
 					</thead>
@@ -57,8 +58,9 @@
 													<td><?= $sm['tujuan']; ?></td>
 													<td><?= $sm['perihal']; ?></td>
 													<td><?= $sm['sifat_surat']; ?></td>
-													<td><a onclick="document.getElementById('id0<?= $i; ?>').style.display='block'"  class="w3-button w3-teal">Konfirmasi</a>
-
+													<td>
+														<a onclick="document.getElementById('id0<?= $i; ?>').style.display='block'"  class="w3-button w3-teal">Konfirmasi</a>
+														<!-- <a href="<?= base_url('surat/laporanpdf'.$a); ?>" class="w3-button w3-teal">Print PDF</a> -->
 														<div id="id0<?= $i; ?>" class="w3-modal w3-animate-opacity">
 															<div class="w3-modal-content w3-card-4" style="max-width: 50%">
 																<span onclick="document.getElementById('id0<?= $i; ?>').style.display='none'" class="w3-button w3-large w3-display-topright w3-red">&times;</span>
@@ -86,6 +88,11 @@
 																</form>
 																<br>
 															</div>
+														</td>
+														<td>
+															<form method="post" action="<?= base_url('surat/laporan')?>">
+																<button type="w3-input" name="noUrut" id="noUrut" value="<?= $sm['no_urut']; ?>" class="w3-button w3-teal">print PDF</button>
+															</form>
 														</td>
 													</tr>
 													<?php $i++; ?>

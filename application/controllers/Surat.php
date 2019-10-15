@@ -62,7 +62,7 @@ class Surat extends CI_Controller {
 			$data['title'] = 'Surat Masuk';
 			$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 			$data['menu'] = $this->db->get('surat_masuk')->result_array();
-		$data['counts2'] =$this->db->select('*')->from('surat_masuk')->where('status', 'menunggu')->count_all_results();
+			$data['counts2'] =$this->db->select('*')->from('surat_masuk')->where('status', 'menunggu')->count_all_results();
 
 			$this->load->view('templates/dash_header', $data);
 			$this->load->view('templates/dash_sidebar', $data);
@@ -70,7 +70,7 @@ class Surat extends CI_Controller {
 			$this->load->view('user/lihatSurat', $data);
 			$this->load->view('templates/dash_footer', $data);
 		} else {
-			echo "berhasil";
+
 			$keterangan = $this->input->post('keterangan');
 			$status = $this->input->post('status');
 			$noUrut = $this->input->post('noUrut');
@@ -80,7 +80,30 @@ class Surat extends CI_Controller {
 			$this->db->where('no_urut', $noUrut);
 			$this->db->update('surat_masuk');
 
+			// $pdf = new FPDF('l','mm','A5');
+   //      // membuat halaman baru
+			// $pdf->AddPage();
+			// $pdf->SetFont('Arial','B',24);
+			// $pdf->Cell(40,10,'Disposisi Surat',0,1);
+			// $surat = $this->db->get_where('surat_masuk', ['no_urut' => $noUrut])->row_array();
+			// $pdf->SetFont('Arial','B',20);
+			// $pdf->cell(40,10,'No: '.$surat['no_surat_masuk'],0,1);
+			// $pdf->Output('laporan'.'2'.'.pdf','I');
+
 			redirect('user/lihatSurat');
 		}
+	}
+
+	public function laporan(){
+		$noUrut = $this->input->post('noUrut');
+		$pdf = new FPDF('l','mm','A5');
+        // membuat halaman baru
+		$pdf->AddPage();
+		$pdf->SetFont('Arial','B',24);
+		$pdf->Cell(40,10,'Disposisi Surat',0,1);
+		$surat = $this->db->get_where('surat_masuk', ['no_urut' => $noUrut])->row_array();
+		$pdf->SetFont('Arial','B',20);
+		$pdf->cell(40,10,'No: '.$surat['no_surat_masuk'],0,1);
+		$pdf->Output('laporan'.$noUrut.'.pdf','D');
 	}
 }
