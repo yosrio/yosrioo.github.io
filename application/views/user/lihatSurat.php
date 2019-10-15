@@ -39,6 +39,13 @@
 									<td><?= $sm['penerima']; ?></td>
 									<td><?= $sm['disposisi']; ?></td>
 									<td><?= $sm['status']; ?></td>
+									<?php if (!empty($sm['disposisi'])): ?>
+										<td>
+											<form method="post" action="<?= base_url('surat/laporan')?>">
+												<button type="w3-input" name="noUrut" id="noUrut" value="<?= $sm['no_urut']; ?>" class="w3-button w3-teal">print PDF</button>
+											</form>
+										</td>
+									<?php endif; ?>
 								</tr>
 								<?php $i++; ?>
 							<?php endforeach; ?>
@@ -88,11 +95,6 @@
 																</form>
 																<br>
 															</div>
-														</td>
-														<td>
-															<form method="post" action="<?= base_url('surat/laporan')?>">
-																<button type="w3-input" name="noUrut" id="noUrut" value="<?= $sm['no_urut']; ?>" class="w3-button w3-teal">print PDF</button>
-															</form>
 														</td>
 													</tr>
 													<?php $i++; ?>

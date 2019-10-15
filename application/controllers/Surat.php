@@ -80,30 +80,75 @@ class Surat extends CI_Controller {
 			$this->db->where('no_urut', $noUrut);
 			$this->db->update('surat_masuk');
 
-			// $pdf = new FPDF('l','mm','A5');
-   //      // membuat halaman baru
-			// $pdf->AddPage();
-			// $pdf->SetFont('Arial','B',24);
-			// $pdf->Cell(40,10,'Disposisi Surat',0,1);
-			// $surat = $this->db->get_where('surat_masuk', ['no_urut' => $noUrut])->row_array();
-			// $pdf->SetFont('Arial','B',20);
-			// $pdf->cell(40,10,'No: '.$surat['no_surat_masuk'],0,1);
-			// $pdf->Output('laporan'.'2'.'.pdf','I');
-
 			redirect('user/lihatSurat');
 		}
 	}
 
 	public function laporan(){
 		$noUrut = $this->input->post('noUrut');
-		$pdf = new FPDF('l','mm','A5');
-        // membuat halaman baru
-		$pdf->AddPage();
-		$pdf->SetFont('Arial','B',24);
-		$pdf->Cell(40,10,'Disposisi Surat',0,1);
 		$surat = $this->db->get_where('surat_masuk', ['no_urut' => $noUrut])->row_array();
-		$pdf->SetFont('Arial','B',20);
-		$pdf->cell(40,10,'No: '.$surat['no_surat_masuk'],0,1);
-		$pdf->Output('laporan'.$noUrut.'.pdf','D');
+		$pdf = new FPDF('l','mm','A5');
+
+		$pdf->AddPage();
+
+		$cellWidth = 170;
+		$cellHeight = 10;
+
+		if ($pdf->GetStringWidth($surat['disposisi']) < $cellWidth) {
+		//jika tidak, maka tidak melakukan apa-apa
+			$line = 1;
+		} else {
+		//jika ya, maka hitung ketinggian yang dibutuhkan untuk sel akan dirapikan
+		//dengan memisahkan teks agar sesuai dengan lebar sel
+		//lalu hitung berapa banyak baris yang dibutuhkan agar teks pas dengan sel
+
+		$textLength = strlen($surat['disposisi']);	//total panjang teks
+		$errMargin = 5;		//margin kesalahan lebar sel, untuk jaga-jaga
+		$startChar = 0;		//posisi awal karakter untuk setiap baris
+		$maxChar = 0;			//karakter maksimum dalam satu baris, yang akan ditambahkan nanti
+		$textArray = array();	//untuk menampung data untuk setiap baris
+		$tmpString = "";		//untuk menampung teks untuk setiap baris (sementara)
+		
+		while($startChar < $textLength){ //perulangan sampai akhir teks
+			//perulangan sampai karakter maksimum tercapai
+			while($pdf->GetStringWidth( $tmpString ) < ($cellWidth-$errMargin) && ($startChar+$maxChar) < $textLength ) {
+				$maxChar++;
+				$tmpString = substr($surat['disposisi'],$startChar,$maxChar);
+			}
+			//pindahkan ke baris berikutnya
+			$startChar = $startChar+$maxChar;
+			//kemudian tambahkan ke dalam array sehingga kita tahu berapa banyak baris yang dibutuhkan
+			array_push($textArray,$tmpString);
+			//reset variabel penampung
+			$maxChar = 0;
+			$tmpString = '';
+
+		}
+		//dapatkan jumlah baris
+		$line=count($textArray);
 	}
+
+	$pdf->SetFont('Arial','B',24);
+	$pdf->Cell(40,10,'Disposisi Surat',0,1);
+	$pdf->SetFont('Arial','B',20);
+	$pdf->cell(40,10,'No: '.$surat['no_surat_masuk'],0,1);
+	$pdf->cell(40,10,'',0,1);
+	$pdf->SetFont('Arial','B',18);
+	$pdf->cell(40,10,'Nama: '.$surat['pengirim'],0,1);
+	$pdf->cell(40,10,'Perihal: '.$surat['perihal'],0,1);
+	$pdf->cell(40,10,'',0,1);
+	$pdf->cell(40,10,'Disposisi: ',0,1);
+
+	$xPos=$pdf->GetX();
+	$yPos=$pdf->GetY();
+	$pdf->MultiCell($cellWidth,$cellHeight,$surat['disposisi'],0,1);
+
+	//kembalikan posisi untuk sel berikutnya di samping MultiCell 
+    //dan offset x dengan lebar MultiCell
+	$pdf->SetXY($xPos + $cellWidth , $yPos);
+
+	// $pdf->multicell(40,10,$surat['disposisi'],0,1);
+
+	$pdf->Output('laporan'.$noUrut.'.pdf','D');
+}
 }
