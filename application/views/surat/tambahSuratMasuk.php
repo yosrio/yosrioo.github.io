@@ -2,7 +2,7 @@
 <div class="container-fluid">
 	<h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
 
-	<form class="w3-container" method="post" action="<?= base_url('surat/surat_Masuk'); ?>">
+	<form class="w3-container" method="post" action="<?= base_url('surat/tambahSuratMasuk'); ?>">
 		<?= $this->session->flashdata('message'); ?>
 			<div style="max-width: 45%;" class="w3-col">
 				<p>
@@ -46,6 +46,6 @@
 				</p>
 			</div>
 			<button type="submit" name="submit" value="Enter" class="w3-col w3-button w3-block w3-teal" style="max-width:25%">SIMPAN</button>
-			<button class="w3-col w3-button w3-block w3-red w3-margin-left" onclick="window.location.href='<?= base_url('User/surat'); ?>'" style="max-width:25%">BATAL</button>
+			<button class="w3-col w3-button w3-block w3-red w3-margin-left" onclick="window.location.href='<?= base_url('surat'); ?>'" style="max-width:25%">BATAL</button>
 	</form>
 </div>

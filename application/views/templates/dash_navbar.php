@@ -19,7 +19,7 @@
         <?php if ($role['role'] == 'Direktur'): ?>
           <!-- Nav Item - Messages -->
           <li class="nav-item dropdown no-arrow mx-1">
-            <a class="nav-link dropdown-toggle" href="<?= base_url('user/lihatSurat'); ?>" id="messagesDropdown" role="button">
+            <a class="nav-link dropdown-toggle" href="<?= base_url('surat/lihatSurat'); ?>" id="messagesDropdown" role="button">
               <i class="fas fa-envelope fa-fw"></i>
               <!-- Counter - Messages -->
               <span class="badge badge-danger badge-counter"><?= $counts2; ?></span>

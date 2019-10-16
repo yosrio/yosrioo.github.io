@@ -5,7 +5,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('user/surat') ?>">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('user') ?>">
         Jogja TV
       </a>
 
@@ -25,7 +25,7 @@
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item">
-          <a class="nav-link" href="<?= base_url('user/surat'); ?>">
+          <a class="nav-link" href="<?= base_url('surat'); ?>">
             <i class="far fa-envelope"></i>
             <span>Manajemen Surat</span></a>
           </li>

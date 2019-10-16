@@ -10,7 +10,7 @@
               <?php if ($role['role'] == 'Keuangan'): ?>
                 Transaksi Surat: 
                 <p>
-                  <a href="<?= base_url('Surat'); ?>" class="btn btn-success" role="button">Surat Masuk</a>
+                  <a href="<?= base_url('surat/tambahSuratMasuk'); ?>" class="btn btn-success" role="button">Surat Masuk</a>
                   <a href="#" class="btn btn-info" role="button">Surat Keluar</a>
                 </p>
                 <!-- <hr class="sidebar-divider"> -->
@@ -31,7 +31,7 @@
                           <?php else: ?>
                             <p class="card-text"> <?= $counts; ?> Surat Masuk</p>
                         <?php endif; ?>
-                        <a class="card-text btn btn-info" href="<?= base_url('User/lihatSurat'); ?>""> Lihat </a>
+                        <a class="card-text btn btn-info" href="<?= base_url('surat/lihatSurat'); ?>""> Lihat </a>
                       </div>
                     </div>
                   </div>
